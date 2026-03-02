@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Booking
 from .serializers import BookingSerializer, BookingCreateSerializer
 from apps.ai_services.deepseek_client import DeepSeekClient
+from apps.users.notification_models import Notification
 
 
 class BookingViewSet(viewsets.ModelViewSet):
@@ -25,6 +26,9 @@ class BookingViewSet(viewsets.ModelViewSet):
         
         # 生成AI拍摄建议
         self._generate_shooting_guide(booking)
+        
+        # 发送AI拍摄建议通知
+        self._send_ai_guide_notification(booking)
         
         # 增加套餐预约量
         package = booking.package
@@ -59,6 +63,19 @@ class BookingViewSet(viewsets.ModelViewSet):
             booking.save()
         except Exception as e:
             print(f"生成拍摄建议失败: {e}")
+    
+    def _send_ai_guide_notification(self, booking):
+        """发送AI拍摄建议通知"""
+        try:
+            Notification.objects.create(
+                user=booking.user,
+                type='ai_guide',
+                title='您的专属拍摄建议已生成',
+                content=f'您预约的「{booking.package.name}」拍摄建议已准备就绪，点击查看详情。',
+                booking=booking
+            )
+        except Exception as e:
+            print(f"发送通知失败: {e}")
     
     @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):

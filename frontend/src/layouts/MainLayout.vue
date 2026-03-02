@@ -10,7 +10,9 @@ import {
   MessageOutlined,
   UserOutlined,
   LogoutOutlined,
+  BellOutlined,
 } from '@ant-design/icons-vue'
+import NotificationBell from '@/components/NotificationBell.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -73,6 +75,7 @@ onMounted(() => {
       
       <div class="user-actions">
         <template v-if="userStore.isLoggedIn">
+          <NotificationBell style="margin-right: 16px" />
           <a-dropdown>
             <a-button type="text" style="color: white">
               <UserOutlined />
