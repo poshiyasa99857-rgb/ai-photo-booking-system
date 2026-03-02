@@ -24,6 +24,12 @@ const menuItems = [
   { key: 'forum', icon: MessageOutlined, label: '论坛', path: '/forum' },
 ]
 
+const userMenuItems = [
+  { key: 'profile', icon: UserOutlined, label: '个人中心', path: '/profile' },
+  { key: 'bookings', icon: CameraOutlined, label: '我的预约', path: '/bookings' },
+  { key: 'feedback', icon: MessageOutlined, label: '意见反馈', path: '/feedback' },
+]
+
 const handleMenuClick = (item: any) => {
   const menuItem = menuItems.find(m => m.key === item.key)
   if (menuItem) {
@@ -74,11 +80,8 @@ onMounted(() => {
             </a-button>
             <template #overlay>
               <a-menu>
-                <a-menu-item @click="$router.push('/profile')">
-                  <UserOutlined /> 个人中心
-                </a-menu-item>
-                <a-menu-item @click="$router.push('/bookings')">
-                  <CameraOutlined /> 我的预约
+                <a-menu-item v-for="item in userMenuItems" :key="item.key" @click="$router.push(item.path)">
+                  <component :is="item.icon" /> {{ item.label }}
                 </a-menu-item>
                 <a-menu-divider />
                 <a-menu-item @click="handleLogout">

@@ -46,6 +46,12 @@ const router = createRouter({
           component: () => import('@/views/BookingsView.vue'),
           meta: { requiresAuth: true },
         },
+        {
+          path: 'feedback',
+          name: 'Feedback',
+          component: () => import('@/views/FeedbackView.vue'),
+          meta: { requiresAuth: true },
+        },
       ],
     },
     {
