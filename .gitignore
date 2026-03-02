@@ -1,0 +1,42 @@
+# AI智能摄影预约系统
+
+node_modules/
+dist/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 数据库
+*.sqlite3
+*.db
+
+# 静态文件和媒体文件（开发环境）
+backend/staticfiles/
+backend/media/
+
+# 日志
+*.log
+logs/
+
+# 系统文件
+.DS_Store
+Thumbs.db
