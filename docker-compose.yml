@@ -47,6 +47,29 @@ services:
     depends_on:
       - backend
 
+  # 定时任务服务
+  scheduler:
+    build: ./backend
+    environment:
+      - DEBUG=${DEBUG:-True}
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-me}
+      - DB_NAME=${DB_NAME:-photo_booking}
+      - DB_USER=root
+      - DB_PASSWORD=${DB_PASSWORD:-password}
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+    volumes:
+      - backend_static:/app/staticfiles
+      - backend_media:/app/media
+      - ./backend/backups:/app/backups
+    depends_on:
+      - db
+      - backend
+    command: >
+      sh -c "echo '*/5 * * * * cd /app && python manage.py run_scheduled_tasks >> /var/log/cron.log 2>&1' | crontab -
+      && cron -f"
+
 volumes:
   mysql_data:
   backend_static:
